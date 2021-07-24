@@ -30,6 +30,10 @@ const userSchema = new Schema({
     type: String,
     default: null,
   },
+  productsNotRecommended: {
+    type: Array,
+    default: null,
+  },
 })
 
 userSchema.pre('save', async function (next) {

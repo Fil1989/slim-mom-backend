@@ -1,3 +1,4 @@
+const User = require('../schema/userSchema')
 const calculate = async body => {
   const { weight, growth, age, desiredWeight } = body
   const result = Math.round(
@@ -7,6 +8,18 @@ const calculate = async body => {
   return result
 }
 
+const getSaveDayNorm = async (body, email) => {
+  const dayNorm = await calculate(body)
+  await User.findOneAndUpdate(
+    { email },
+    {
+      $set: { dayNorm },
+    },
+  )
+  return dayNorm
+}
+
 module.exports = {
   calculate,
+  getSaveDayNorm,
 }
