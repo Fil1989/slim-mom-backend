@@ -1,29 +1,30 @@
 const { createUser, findByEmail } = require('../services/usersService')
 const { loginAuth, logoutAuth } = require('../services/authService')
-const { calculate, getSaveDayNorm } = require('../services/calcService')
+const { calculate } = require('../services/calcService')
+const { fetchProducts } = require('../services/productsService')
 
 const getDayNormKcal = async (req, res, next) => {
-  // weight height age desired weight
-  // console.log(req.body);
+  const { groupBlood } = req.body
   try {
     const kcal = await calculate(req.body)
+    const products = await fetchProducts()
+
+    const productsNotRecommended = products
+      .filter((el, _, arr) => {
+        if (el.groupBloodNotAllowed[groupBlood]) return arr
+      })
+      .flatMap(el => el.categories)
+      .reduce((acc, el, ind, arr) => {
+        arr.indexOf(el) === ind ? acc.push(el) : acc
+        return acc
+      }, [])
 
     return res.status(200).json({
       message: 'success',
-      result: kcal,
+      data: { kcal, productsNotRecommended },
     })
   } catch (e) {
     next(e)
-  }
-}
-
-const getSaveDayNormController = async (req, res, next) => {
-  try {
-    const { email } = req.user
-    const dailyNorm = await getSaveDayNorm(req.body, email)
-    res.status(200).json({ message: 'success', dailyNorm })
-  } catch (error) {
-    next(error)
   }
 }
 
@@ -85,5 +86,4 @@ module.exports = {
   login,
   logout,
   getDayNormKcal,
-  getSaveDayNormController,
 }
