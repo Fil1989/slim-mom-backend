@@ -22,5 +22,23 @@ const validateAuth = (req, res, next) => {
     next()
   }
 }
+const validateCalc = (req, res, next) => {
+  const schemaCalc = Joi.object({
+    weight: Joi.string().required(),
+    growth: Joi.string().required(),
+    age: Joi.string().required(),
+    desiredWeight: Joi.string().required(),
+  })
 
-module.exports = { validateAuth }
+  const validation = schemaCalc.validate(req.body)
+
+  if (validation.error) {
+    const [{ context }] = validation.error.details
+    const { label } = context
+    return res.status(400).json({ message: `missing required '${label}' field` })
+  } else {
+    next()
+  }
+}
+
+module.exports = { validateAuth, validateCalc }
