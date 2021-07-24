@@ -12,7 +12,7 @@ const {
   logout,
 } = require('../../controllers/usersControllers')
 
-router.post('/public', getDayNormKcal)
+router.post('/public', validateCalc, getDayNormKcal)
 router.post('/private', authMiddleware, validateCalc, getSaveDayNormController)
 router.post('/signup', validateAuth, signup)
 router.post('/login', validateAuth, login)
