@@ -1,4 +1,4 @@
-const { fetchProducts } = require('../services/productsService')
+const { fetchProducts, addProduct } = require('../services/productsService')
 
 const search = async (req, res, next) => {
   const { product } = req.params
@@ -16,7 +16,6 @@ const search = async (req, res, next) => {
       })
 
     return res.status(200).json({
-      message: 'success',
       foundProducts,
     })
   } catch (e) {
@@ -24,4 +23,32 @@ const search = async (req, res, next) => {
   }
 }
 
-module.exports = { search }
+const add = async (req, res, next) => {
+  const { id } = req.user
+  try {
+    const product = await addProduct(id, req.body)
+
+    return res.status(201).json({
+      product,
+    })
+  } catch (e) {
+    next(e)
+  }
+  next()
+}
+
+const remove = async (req, res, next) => {
+  const { id } = req.user
+  try {
+    const product = await removeProduct(id, req.body)
+
+    return res.status(201).json({
+      product,
+    })
+  } catch (e) {
+    next(e)
+  }
+  next()
+}
+
+module.exports = { search, add, remove }

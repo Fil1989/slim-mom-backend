@@ -20,8 +20,8 @@ const getDayNormKcal = async (req, res, next) => {
       }, [])
 
     return res.status(200).json({
-      message: 'success',
-      data: { kcal, productsNotRecommended },
+      kcal,
+      productsNotRecommended,
     })
   } catch (e) {
     next(e)
