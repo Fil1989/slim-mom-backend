@@ -18,5 +18,27 @@ const addProduct = async (userId, body) => {
 const removeProduct = async (userId, { productId }) => {
   return await productsPerDate.findOneAndRemove({ _id: productId, owner: userId })
 }
+const getProductsByDay = async (userId, date) => {
+  const allDates = await productsPerDate.find({ owner: userId, date })
+  const products = allDates.map(el => {
+    return {
+      kcal: el.kcal,
+      weight: el.weight,
+      title: el.title,
+    }
+  })
+  const productsOptimized = products.reduce((accum, el) => {
+    const accumTitles = accum.map(elem => elem.title) || []
+    if (accumTitles.includes(el.title)) {
+      const sameProduct = accum.find(element => element.title === el.title)
+      sameProduct.weight = sameProduct.weight + el.weight
+      sameProduct.kcal = sameProduct.kcal + el.kcal
+    } else {
+      accum.push(el)
+    }
+    return accum
+  }, [])
+  return productsOptimized
+}
 
-module.exports = { fetchProducts, addProduct, removeProduct }
+module.exports = { fetchProducts, addProduct, removeProduct, getProductsByDay }
