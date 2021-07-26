@@ -2,7 +2,7 @@ const app = require('../app')
 const db = require('../src/db')
 require('dotenv').config()
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 
 db.then(
   app.listen(PORT, async () => {
