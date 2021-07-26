@@ -18,7 +18,7 @@ app.use('/api/users', usersRoutes)
 app.use('/api/products', productsRoutes)
 
 app.use((req, res) => {
-  res.status(404).json({ message: `Use route /api/users` })
+  res.status(404).json({ message: `Wrong route` })
 })
 
 app.use((err, req, res, next) => {

@@ -12,7 +12,7 @@ const search = async (req, res, next) => {
         return nameProd.includes(normalizedQuery)
       })
       .map(el => {
-        return { kcal: el.calories, weight: el.weight, title: el.title.ru }
+        return { kcal: el.calories, weight: el.weight, title: el.title.ru, id: el._id }
       })
 
     return res.status(200).json({
@@ -50,7 +50,7 @@ const remove = async (req, res, next) => {
       })
     }
     return res.status(200).json({
-      message: 'product remove',
+      message: 'product removed',
     })
   } catch (e) {
     next(e)
