@@ -6,6 +6,6 @@ const { search, add, remove } = require('../../controllers/productsControllers')
 
 router.get('/search/:product', authMiddleware, validateSearch, search)
 router.post('/', authMiddleware, add)
-router.post('/:productId', authMiddleware, remove)
+router.delete('/:productId', authMiddleware, remove)
 
 module.exports = router

@@ -12,12 +12,11 @@ const fetchProducts = async () => {
 const addProduct = async (userId, body) => {
   const calc = await calcKcal(body)
 
-  return await productsPerDate.create({ food: { ...body, kcal: calc }, owner: userId })
+  return await productsPerDate.create({ ...body, kcal: calc, owner: userId })
 }
 
-const removeProduct = async (userId, body) => {
-  const calc = await calcKcal(body)
-
-  return await productsPerDate.remove({ food: { ...body, kcal: calc }, owner: userId })
+const removeProduct = async (userId, { productId }) => {
+  return await productsPerDate.findOneAndRemove({ _id: productId, owner: userId })
 }
+
 module.exports = { fetchProducts, addProduct, removeProduct }

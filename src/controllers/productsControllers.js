@@ -1,4 +1,4 @@
-const { fetchProducts, addProduct } = require('../services/productsService')
+const { fetchProducts, addProduct, removeProduct } = require('../services/productsService')
 
 const search = async (req, res, next) => {
   const { product } = req.params
@@ -38,12 +38,19 @@ const add = async (req, res, next) => {
 }
 
 const remove = async (req, res, next) => {
+  console.log(req.user)
   const { id } = req.user
   try {
-    const product = await removeProduct(id, req.body)
+    const deletedProduct = await removeProduct(id, req.params)
 
-    return res.status(201).json({
-      product,
+    if (!deletedProduct) {
+      return res.status(404).json({
+        status: 'fail',
+        message: `Product with id '${req.params.productId}' not found!`,
+      })
+    }
+    return res.status(200).json({
+      message: 'product remove',
     })
   } catch (e) {
     next(e)
