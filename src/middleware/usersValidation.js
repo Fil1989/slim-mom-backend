@@ -47,7 +47,7 @@ const validateAuthorized = (req, res, next) => {
 const validateCalc = (req, res, next) => {
   const schemaCalc = Joi.object({
     weight: Joi.string().required(),
-    growth: Joi.string().required(),
+    height: Joi.string().required(),
     age: Joi.string().required(),
     desiredWeight: Joi.string().required(),
     groupBlood: Joi.string().required(),

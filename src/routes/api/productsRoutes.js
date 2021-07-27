@@ -1,11 +1,13 @@
 const express = require('express')
 const router = express.Router()
 const authMiddleware = require('../../middleware/authMiddleware')
-const { validateSearch } = require('../../middleware/productsValidation')
-const { search, add, remove } = require('../../controllers/productsControllers')
+const { validateSearch, validateAddProduct } = require('../../middleware/productsValidation')
+const { search, add, remove, getByDay } = require('../../controllers/productsControllers')
 
-router.get('/search/:product', authMiddleware, validateSearch, search)
-router.post('/', authMiddleware, add)
-router.delete('/:productId', authMiddleware, remove)
+router.use(authMiddleware)
+router.get('/search/:product', validateSearch, search)
+router.post('/', validateAddProduct, add)
+router.delete('/:productId', remove)
+router.get('/:date', getByDay)
 
 module.exports = router
