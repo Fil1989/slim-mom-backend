@@ -1,10 +1,10 @@
 const { fetchProducts, addProduct, removeProduct, getProductsByDay } = require('../services/productsService')
 
 const search = async (req, res, next) => {
-  const { product } = req.params
-  const normalizedQuery = product.toLowerCase()
+  const { product } = req.query
 
   try {
+    const normalizedQuery = product.toLowerCase()
     const products = await fetchProducts()
     const foundProducts = products
       .filter(el => {
@@ -38,7 +38,6 @@ const add = async (req, res, next) => {
 }
 
 const remove = async (req, res, next) => {
-  console.log(req.user)
   const { id } = req.user
   try {
     const deletedProduct = await removeProduct(id, req.params)

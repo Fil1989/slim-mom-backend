@@ -5,9 +5,9 @@ const { validateSearch, validateAddProduct } = require('../../middleware/product
 const { search, add, remove, getByDay } = require('../../controllers/productsControllers')
 
 router.use(authMiddleware)
-router.get('/search/:product', validateSearch, search)
 router.post('/', validateAddProduct, add)
-router.delete('/:productId', remove)
+router.get('/search', validateSearch, search)
 router.get('/:date', getByDay)
+router.delete('/:productId', remove)
 
 module.exports = router

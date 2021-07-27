@@ -44,6 +44,7 @@ const validateAuthorized = (req, res, next) => {
     next()
   }
 }
+
 const validateCalc = (req, res, next) => {
   const schemaCalc = Joi.object({
     weight: Joi.string().required(),
