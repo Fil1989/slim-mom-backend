@@ -1,4 +1,4 @@
-const { fetchProducts, addProduct, removeProduct } = require('../services/productsService')
+const { fetchProducts, addProduct, removeProduct, getProductsByDay } = require('../services/productsService')
 
 const search = async (req, res, next) => {
   const { product } = req.query
@@ -57,4 +57,29 @@ const remove = async (req, res, next) => {
   next()
 }
 
-module.exports = { search, add, remove }
+const getByDay = async (req, res, next) => {
+  const { date } = req.params
+  const { _id, email, dayNorm } = req.user
+  try {
+    const products = await getProductsByDay(_id, date)
+    const totalKcalPerDay = products.reduce((accum, el) => {
+      accum += el.kcal
+      return accum
+    }, 0)
+    const kcalRemain = dayNorm - totalKcalPerDay
+    const percentage = Math.round((totalKcalPerDay / dayNorm) * 100)
+    res.status(200).json({
+      email,
+      date,
+      products,
+      dayNorm,
+      totalKcalPerDay,
+      kcalRemain,
+      percentage: `${percentage}%`,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+module.exports = { search, add, remove, getByDay }
