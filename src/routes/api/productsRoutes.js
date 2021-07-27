@@ -4,7 +4,7 @@ const authMiddleware = require('../../middleware/authMiddleware')
 const { validateSearch } = require('../../middleware/productsValidation')
 const { search, add, remove } = require('../../controllers/productsControllers')
 
-router.get('/search/:product', authMiddleware, validateSearch, search)
+router.get('/search', authMiddleware, validateSearch, search)
 router.post('/', authMiddleware, add)
 router.delete('/:productId', authMiddleware, remove)
 

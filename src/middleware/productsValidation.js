@@ -5,7 +5,7 @@ const validateSearch = (req, res, next) => {
     product: Joi.string().required().min(3),
   })
 
-  const validation = schemaSearch.validate(req.params)
+  const validation = schemaSearch.validate(req.query)
 
   if (validation.error) {
     const [{ message }] = validation.error.details

@@ -33,7 +33,7 @@ const getSaveDayNormController = async (req, res, next) => {
   const { email } = req.user
 
   try {
-    const dailyNorm = await getSaveDayNorm(req.body, email)
+    const kcal = await getSaveDayNorm(req.body, email)
 
     const products = await fetchProducts()
     const productsNotRecommended = products
@@ -46,7 +46,7 @@ const getSaveDayNormController = async (req, res, next) => {
         return acc
       }, [])
     await saveNotRecommendedInDb(productsNotRecommended, email)
-    res.status(200).json({ message: 'success', dailyNorm, productsNotRecommended })
+    res.status(200).json({ kcal, productsNotRecommended })
   } catch (error) {
     next(error)
   }
@@ -62,11 +62,11 @@ const signup = async (req, res, next) => {
   try {
     const newUser = await createUser(req.body)
 
-    const { email } = newUser
+    const { name, email } = newUser
 
     return res.status(201).json({
-      message: 'success',
-      user: { email },
+      name,
+      email,
     })
   } catch (e) {
     next(e)
@@ -86,9 +86,8 @@ const login = async (req, res, next) => {
     const { email } = await findByEmail(req.body)
 
     return res.status(200).json({
-      status: 'success',
       token,
-      user: { email },
+      email,
     })
   } catch (e) {
     next(e)
