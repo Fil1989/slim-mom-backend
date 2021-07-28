@@ -34,8 +34,8 @@ const validateDate = (req, res, next) => {
 const validateAddProduct = (req, res, next) => {
   const schemaAuth = Joi.object({
     title: Joi.string().required().min(3),
-    weight: Joi.string().required(),
-    kcal: Joi.string().required(),
+    weight: Joi.number().required(),
+    kcal: Joi.number().required(),
   })
 
   const validation = schemaAuth.validate(req.body)

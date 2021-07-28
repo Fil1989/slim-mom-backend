@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const authMiddleware = require('../../middleware/authMiddleware')
-const { validateSearch, validateAddProduct } = require('../../middleware/productsValidation')
-const { search, add, remove, getByDay } = require('../../controllers/productsControllers')
+const authMiddleware = require('../middleware/authMiddleware')
+const { validateSearch, validateAddProduct } = require('../middleware/productsValidation')
+const { search, add, remove, getByDay } = require('../controllers/productsControllers')
 
 router.use(authMiddleware)
 router.post('/', validateAddProduct, add)

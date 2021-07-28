@@ -44,8 +44,7 @@ const remove = async (req, res, next) => {
 
     if (!deletedProduct) {
       return res.status(404).json({
-        status: 'fail',
-        message: `Product with id '${req.params.productId}' not found!`,
+        message: 'Product not found!',
       })
     }
     return res.status(200).json({
