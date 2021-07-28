@@ -71,10 +71,10 @@ const getByDay = async (req, res, next) => {
       email,
       date,
       products,
-      dayNorm,
+      dayNorm: Number(dayNorm),
       totalKcalPerDay,
       kcalRemain,
-      percentage: `${percentage}%`,
+      percentage,
     })
   } catch (error) {
     next(error)
