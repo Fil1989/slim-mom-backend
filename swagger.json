@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "1.0.2",
+    "version": "1.0.3",
     "title": "SlimMom API",
-    "description": "API documentation for 4-group project 'SlimMom'",
+    "description": "API documentation for project 'SlimMom'",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -11,7 +11,7 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:3001" }],
+  "servers": [{ "url": "https://slim-mom-backend.herokuapp.com" }],
   "tags": [
     {
       "name": "User",
@@ -329,7 +329,7 @@
     "/products/{date}": {
       "get": {
         "tags": ["Products"],
-        "summary": "Get info for day",
+        "summary": "Get info of day",
         "security": [{ "Bearer": [] }],
         "parameters": [
           {
@@ -615,6 +615,10 @@
                 "title": {
                   "type": "string",
                   "description": "Product's title"
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Product's id"
                 }
               }
             }
@@ -643,12 +647,14 @@
             {
               "kcal": 50,
               "weight": 250,
-              "title": "Томат (помидор)"
+              "title": "Томат (помидор)",
+              "id": "61d262sf"
             },
             {
               "kcal": 108,
               "weight": 400,
-              "title": "Квас хлебный"
+              "title": "Квас хлебный",
+              "id": "74a05dd0"
             }
           ],
           "dayNorm": 1570,
