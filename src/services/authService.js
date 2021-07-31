@@ -14,7 +14,7 @@ const loginAuth = async ({ email, password }) => {
   const id = user.id
   const payload = { id }
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: '1h' })
+  const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: '8h' })
 
   await updateToken(id, token)
 

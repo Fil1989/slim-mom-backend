@@ -336,7 +336,7 @@
             "in": "path",
             "name": "date",
             "type": "string",
-            "description": "Enter date",
+            "description": "Enter date YYYY-MM-DD",
             "required": true
           }
         ],
