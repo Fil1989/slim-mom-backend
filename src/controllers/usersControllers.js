@@ -5,13 +5,14 @@ const { fetchProducts } = require('../services/productsService')
 
 const getDayNormKcal = async (req, res, next) => {
   const { groupBlood } = req.body
+
   try {
     const kcal = await calculate(req.body)
     const products = await fetchProducts()
 
     const productsNotRecommended = products
       .filter((el, _, arr) => {
-        if (el.groupBloodNotAllowed[groupBlood]) return arr
+        if (el.groupBloodNotAllowed[Number(groupBlood)]) return arr
       })
       .flatMap(el => el.categories)
       .reduce((acc, el, ind, arr) => {

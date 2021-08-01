@@ -15,9 +15,7 @@ const search = async (req, res, next) => {
         return { kcal: el.calories, weight: el.weight, title: el.title.ru, id: el._id }
       })
 
-    return res.status(200).json({
-      foundProducts,
-    })
+    return res.status(200).json(foundProducts)
   } catch (e) {
     next(e)
   }
@@ -27,14 +25,18 @@ const add = async (req, res, next) => {
   const { id } = req.user
   try {
     const product = await addProduct(id, req.body)
-
+    const { _id, date, kcal, weight, title, owner } = product
     return res.status(201).json({
-      product,
+      id: _id,
+      date,
+      kcal,
+      weight,
+      title,
+      owner,
     })
   } catch (e) {
     next(e)
   }
-  next()
 }
 
 const remove = async (req, res, next) => {
@@ -53,12 +55,12 @@ const remove = async (req, res, next) => {
   } catch (e) {
     next(e)
   }
-  next()
 }
 
 const getByDay = async (req, res, next) => {
   const { date } = req.params
-  const { _id, email, dayNorm } = req.user
+  const { _id, email, dayNorm, productsNotRecommended } = req.user
+
   try {
     const products = await getProductsByDay(_id, date)
     const totalKcalPerDay = products.reduce((accum, el) => {
@@ -75,6 +77,7 @@ const getByDay = async (req, res, next) => {
       totalKcalPerDay,
       kcalRemain,
       percentage,
+      productsNotRecommended,
     })
   } catch (error) {
     next(error)

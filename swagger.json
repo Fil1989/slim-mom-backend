@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "1.0.3",
+    "version": "1.0.5",
     "title": "SlimMom API",
     "description": "API documentation for project 'SlimMom'",
     "license": {
@@ -558,7 +558,7 @@
             "type": "string",
             "description": "Day's date"
           },
-          "_id": {
+          "id": {
             "type": "string",
             "description": "Product's id"
           },
@@ -638,6 +638,13 @@
           "percentage": {
             "type": "string",
             "description": "Percentage of the daily norm"
+          },
+          "productsNotRecommended": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "User's list of not recommended products"
           }
         },
         "example": {
@@ -660,7 +667,8 @@
           "dayNorm": 1570,
           "totalKcalPerDay": 158,
           "kcalRemain": 1412,
-          "percentage": 10
+          "percentage": 10,
+          "productsNotRecommended": ["мучные", "орехи", "зерновые", "овощи и зелень", "масла и жиры"]
         }
       }
     },
