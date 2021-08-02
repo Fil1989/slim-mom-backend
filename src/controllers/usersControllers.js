@@ -77,18 +77,18 @@ const signup = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const token = await loginAuth(req.body)
-
     if (!token) {
       return res.status(401).json({
         message: 'Email or password is wrong',
       })
     }
 
-    const { email } = await findByEmail(req.body)
+    const { name, email } = await findByEmail(req.body)
 
     return res.status(200).json({
-      token,
+      name,
       email,
+      token,
     })
   } catch (e) {
     next(e)
@@ -109,6 +109,7 @@ const current = async (req, res, next) => {
   const { name, email, _id } = req.user
   try {
     const user = await findById(_id)
+
     if (user) {
       return res.status(200).json({ name, email })
     }

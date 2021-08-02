@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "1.0.6",
+    "version": "1.0.7",
     "title": "SlimMom API",
     "description": "API documentation for project 'SlimMom'",
     "license": {
@@ -467,16 +467,20 @@
       "LoginResponse": {
         "type": "object",
         "properties": {
-          "token": {
+          "name": {
             "type": "string",
-            "description": "User's token"
+            "description": "User's name"
           },
           "email": {
             "type": "string",
             "description": "User's email"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token"
           }
         },
-        "example": { "token": "JWT", "email": "guest@example.com" }
+        "example": { "name": "Guest", "email": "guest@example.com", "token": "JWT" }
       },
       "DailyRateRequest": {
         "type": "object",
