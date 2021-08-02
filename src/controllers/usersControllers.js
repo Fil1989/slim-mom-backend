@@ -48,8 +48,8 @@ const getSaveDayNormController = async (req, res, next) => {
       }, [])
     await saveNotRecommendedInDb(productsNotRecommended, email)
     res.status(200).json({ kcal, productsNotRecommended })
-  } catch (error) {
-    next(error)
+  } catch (e) {
+    next(e)
   }
 }
 
