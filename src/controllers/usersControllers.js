@@ -1,4 +1,4 @@
-const { createUser, findByEmail, saveNotRecommendedInDb } = require('../services/usersService')
+const { createUser, findByEmail, saveNotRecommendedInDb, findById } = require('../services/usersService')
 const { loginAuth, logoutAuth } = require('../services/authService')
 const { calculate, getSaveDayNorm } = require('../services/calcService')
 const { fetchProducts } = require('../services/productsService')
@@ -48,8 +48,8 @@ const getSaveDayNormController = async (req, res, next) => {
       }, [])
     await saveNotRecommendedInDb(productsNotRecommended, email)
     res.status(200).json({ kcal, productsNotRecommended })
-  } catch (error) {
-    next(error)
+  } catch (e) {
+    next(e)
   }
 }
 
@@ -105,10 +105,23 @@ const logout = async (req, res, next) => {
   }
 }
 
+const current = async (req, res, next) => {
+  const { name, email, _id } = req.user
+  try {
+    const user = await findById(_id)
+    if (user) {
+      return res.status(200).json({ name, email })
+    }
+  } catch (e) {
+    next(e)
+  }
+}
+
 module.exports = {
   signup,
   login,
   logout,
   getDayNormKcal,
   getSaveDayNormController,
+  current,
 }

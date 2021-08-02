@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "1.0.5",
+    "version": "1.0.6",
     "title": "SlimMom API",
     "description": "API documentation for project 'SlimMom'",
     "license": {
@@ -195,6 +195,46 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DailyRateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/current": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get information about the current user",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "description": "The token issued to the current user.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
                 }
               }
             }
@@ -492,6 +532,7 @@
           "productsNotRecommended": ["мучные", "орехи", "зерновые", "овощи и зелень", "масла и жиры"]
         }
       },
+
       "ProductsResponse": {
         "type": "object",
         "properties": {
