@@ -6,7 +6,8 @@ const createUser = async body => {
 }
 
 const findByEmail = async ({ email }) => {
-  return await User.findOne({ email })
+  const user = await User.findOne({ email })
+  return user
 }
 
 const findById = async id => {
