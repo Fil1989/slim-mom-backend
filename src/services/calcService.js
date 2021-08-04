@@ -27,8 +27,24 @@ const getSaveDayNorm = async (body, email) => {
   return dayNorm
 }
 
+const getKcalPerDay = async products => {
+  return await products.reduce((accum, el) => {
+    accum += el.kcal
+    return accum
+  }, 0)
+}
+
+const getRemain = async (dayNorm, totalKcalPerDay) => {
+  const kcalRemain = dayNorm - totalKcalPerDay
+  const percentage = Math.round((totalKcalPerDay / dayNorm) * 100)
+
+  return { kcalRemain, percentage }
+}
+
 module.exports = {
   calculate,
   getSaveDayNorm,
   calcKcal,
+  getKcalPerDay,
+  getRemain,
 }

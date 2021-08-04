@@ -2,6 +2,7 @@ const { createUser, findByEmail, saveNotRecommendedInDb, findById } = require('.
 const { loginAuth, logoutAuth } = require('../services/authService')
 const { calculate, getSaveDayNorm } = require('../services/calcService')
 const { fetchProducts } = require('../services/productsService')
+const { getListProducts } = require('../assets')
 
 const getDayNormKcal = async (req, res, next) => {
   const { groupBlood } = req.body
@@ -9,16 +10,7 @@ const getDayNormKcal = async (req, res, next) => {
   try {
     const kcal = await calculate(req.body)
     const products = await fetchProducts()
-
-    const productsNotRecommended = products
-      .filter((el, _, arr) => {
-        if (el.groupBloodNotAllowed[Number(groupBlood)]) return arr
-      })
-      .flatMap(el => el.categories)
-      .reduce((acc, el, ind, arr) => {
-        arr.indexOf(el) === ind ? acc.push(el) : acc
-        return acc
-      }, [])
+    const productsNotRecommended = await getListProducts(products, groupBlood)
 
     return res.status(200).json({
       kcal,
@@ -35,17 +27,8 @@ const getSaveDayNormController = async (req, res, next) => {
 
   try {
     const kcal = await getSaveDayNorm(req.body, email)
-
     const products = await fetchProducts()
-    const productsNotRecommended = products
-      .filter((el, _, arr) => {
-        if (el.groupBloodNotAllowed[groupBlood]) return arr
-      })
-      .flatMap(el => el.categories)
-      .reduce((acc, el, ind, arr) => {
-        arr.indexOf(el) === ind ? acc.push(el) : acc
-        return acc
-      }, [])
+    const productsNotRecommended = await getListProducts(products, groupBlood)
     await saveNotRecommendedInDb(productsNotRecommended, email)
     res.status(200).json({ kcal, productsNotRecommended })
   } catch (e) {
