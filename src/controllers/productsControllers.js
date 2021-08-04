@@ -1,19 +1,15 @@
 const { fetchProducts, addProduct, removeProduct, getProductsByDay } = require('../services/productsService')
 
+const { getListFoundProducts } = require('../assets')
+const { getRemain, getKcalPerDay } = require('../services/calcService')
+
 const search = async (req, res, next) => {
   const { product } = req.query
+  const normalizedQuery = product.toLowerCase()
 
   try {
-    const normalizedQuery = product.toLowerCase()
     const products = await fetchProducts()
-    const foundProducts = products
-      .filter(el => {
-        const nameProd = el.title.ru.toLowerCase()
-        return nameProd.includes(normalizedQuery)
-      })
-      .map(el => {
-        return { kcal: el.calories, weight: el.weight, title: el.title.ru, id: el._id }
-      })
+    const foundProducts = await getListFoundProducts(products, normalizedQuery)
 
     return res.status(200).json(foundProducts)
   } catch (e) {
@@ -63,12 +59,9 @@ const getByDay = async (req, res, next) => {
 
   try {
     const products = await getProductsByDay(_id, date)
-    const totalKcalPerDay = products.reduce((accum, el) => {
-      accum += el.kcal
-      return accum
-    }, 0)
-    const kcalRemain = dayNorm - totalKcalPerDay
-    const percentage = Math.round((totalKcalPerDay / dayNorm) * 100)
+    const totalKcalPerDay = await getKcalPerDay(products)
+    const { kcalRemain, percentage } = await getRemain(dayNorm, totalKcalPerDay)
+
     res.status(200).json({
       email,
       date,
