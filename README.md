@@ -22,6 +22,9 @@
 - користувачі (users)
 - продукти (products)
 - продукти по даті (productsperdates)
+
+Графічний інтерфейс бази данних - в MongoDB Compass
+
 <h2>Основні Ендпоінти</h2>
 
 @ POST /users/signup - реєстрація користувача
