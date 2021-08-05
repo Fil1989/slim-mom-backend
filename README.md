@@ -48,5 +48,7 @@
 
 <h2>Запуск сервера</h2>
 Використовуються скрипти з package.json: 
-Для розробки: "start:dev": "cross-env NODE_ENV=development nodemon ./bin/server.js",
-Для продакшну: "start": "cross-env NODE_ENV=production node ./bin/server.js"
+<ul>
+<li>Для розробки: "start:dev": "cross-env NODE_ENV=development nodemon ./bin/server.js",</li>
+<li>Для продакшну: "start": "cross-env NODE_ENV=production node ./bin/server.js"</li>
+</ul>
