@@ -1,0 +1,728 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.7",
+    "title": "SlimMom API",
+    "description": "API documentation for project 'SlimMom'",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [{ "url": "https://slim-mom-backend.herokuapp.com" }],
+  "tags": [
+    {
+      "name": "User",
+      "description": "User endpoints"
+    },
+    {
+      "name": "Products",
+      "description": "Products endpoints"
+    }
+  ],
+
+  "paths": {
+    "/users/signup": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create new user",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Login user",
+        "parameters": [],
+        "requestBody": {
+          "description": "Login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Logout user",
+
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "204": {
+            "description": "Not Content"
+          },
+
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/public": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Get public information on daily calories and a list of not recommended foods",
+        "parameters": [],
+        "requestBody": {
+          "description": "Request object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DailyRateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DailyRateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/private": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Get private information on daily calories and a list of not recommended foods",
+
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Request object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DailyRateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DailyRateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/current": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get information about the current user",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "description": "The token issued to the current user.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/products/search": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Search and get a list of products by query",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "product",
+            "type": "string",
+            "description": "Enter name of the product you want to find (russian)",
+            "required": true
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found"
+          },
+
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/products": {
+      "post": {
+        "tags": ["Products"],
+        "summary": "Add product",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Product's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProductRequest"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found"
+          },
+
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/products/{productId}": {
+      "delete": {
+        "tags": ["Products"],
+        "summary": "Remove product",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "type": "string",
+            "description": "Product's id",
+            "required": true
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found"
+          },
+
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/products/{date}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get info of day",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "date",
+            "type": "string",
+            "description": "Enter date YYYY-MM-DD",
+            "required": true
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found"
+          },
+
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password"
+          }
+        },
+        "example": {
+          "name": "Guest",
+          "email": "guest@example.com",
+          "password": "qwerty123"
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email"
+          }
+        },
+        "example": { "name": "Guest", "email": "guest@example.com" }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password"
+          }
+        },
+        "example": {
+          "email": "guest@example.com",
+          "password": "qwerty123"
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token"
+          }
+        },
+        "example": { "name": "Guest", "email": "guest@example.com", "token": "JWT" }
+      },
+      "DailyRateRequest": {
+        "type": "object",
+        "required": ["weight", "height", "age", "desiredWeight", "groupBlood"],
+        "properties": {
+          "weight": {
+            "type": "number",
+            "description": "User's weight (kg)"
+          },
+          "height": {
+            "type": "number",
+            "description": "User's height (cm)"
+          },
+          "age": {
+            "type": "number",
+            "description": "User's age",
+            "min": 18
+          },
+          "desiredWeight": {
+            "type": "number",
+            "description": "User's desired weight (cm)"
+          },
+          "groupBlood": {
+            "type": "number",
+            "description": "User's group blood"
+          }
+        },
+        "example": {
+          "weight": 80,
+          "height": 165,
+          "age": 30,
+          "desiredWeight": 70,
+          "groupBlood": 3
+        }
+      },
+      "DailyRateResponse": {
+        "type": "object",
+        "properties": {
+          "kcal": {
+            "type": "number",
+            "description": "User's daily calorie intake"
+          },
+          "productsNotRecommended": {
+            "type": "array",
+            "description": "User's list of not recommended products",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "kcal": 1420,
+          "productsNotRecommended": ["мучные", "орехи", "зерновые", "овощи и зелень", "масла и жиры"]
+        }
+      },
+
+      "ProductsResponse": {
+        "type": "object",
+        "properties": {
+          "kcal": {
+            "type": "number",
+            "description": "Product's kcal/100g"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Product's weight (100g)"
+          },
+          "title": {
+            "type": "string",
+            "description": "Product's title"
+          },
+          "id": {
+            "type": "string",
+            "description": "Product's id"
+          }
+        },
+        "example": [
+          {
+            "kcal": 95,
+            "weight": 100,
+            "title": "Банан",
+            "id": "5d5169"
+          },
+          {
+            "kcal": 48,
+            "weight": 100,
+            "title": "Банановый сок",
+            "id": "5d51694"
+          }
+        ]
+      },
+
+      "AddProductRequest": {
+        "type": "object",
+        "required": ["kcal", "weight", "title"],
+        "properties": {
+          "kcal": {
+            "type": "number",
+            "description": "Product's kcal/100g"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Product's weight (g)"
+          },
+          "title": {
+            "type": "string",
+            "description": "Product's name"
+          }
+        },
+        "example": {
+          "kcal": 20,
+          "weight": 250,
+          "title": "Томат (помидор)"
+        }
+      },
+      "AddProductResponse": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Day's date"
+          },
+          "id": {
+            "type": "string",
+            "description": "Product's id"
+          },
+          "kcal": {
+            "type": "number",
+            "description": "Kcal consumed"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Product's weight changed by the user"
+          },
+          "title": {
+            "type": "string",
+            "description": "Product's name"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner's id product"
+          }
+        },
+        "example": {
+          "date": "2021-07-27",
+          "_id": "61003f8",
+          "kcal": 50,
+          "weight": 250,
+          "title": "Томат (помидор)",
+          "owner": "60ffdb"
+        }
+      },
+      "DateResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email"
+          },
+          "date": {
+            "type": "string",
+            "description": "Day's date"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kcal": {
+                  "type": "number",
+                  "description": "Product's kcal"
+                },
+                "weight": {
+                  "type": "number",
+                  "description": "Product's weight"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Product's title"
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Product's id"
+                }
+              }
+            }
+          },
+          "dayNorm": {
+            "type": "string",
+            "description": "Calories per day"
+          },
+          "totalKcalPerDay": {
+            "type": "number",
+            "description": "Calories consumed per day"
+          },
+          "KcalRemain": {
+            "type": "number",
+            "description": "Calories left for the day"
+          },
+          "percentage": {
+            "type": "string",
+            "description": "Percentage of the daily norm"
+          },
+          "productsNotRecommended": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "User's list of not recommended products"
+          }
+        },
+        "example": {
+          "email": "guest@example.com",
+          "date": "2021-07-27",
+          "products": [
+            {
+              "kcal": 50,
+              "weight": 250,
+              "title": "Томат (помидор)",
+              "id": "61d262sf"
+            },
+            {
+              "kcal": 108,
+              "weight": 400,
+              "title": "Квас хлебный",
+              "id": "74a05dd0"
+            }
+          ],
+          "dayNorm": 1570,
+          "totalKcalPerDay": 158,
+          "kcalRemain": 1412,
+          "percentage": 10,
+          "productsNotRecommended": ["мучные", "орехи", "зерновые", "овощи и зелень", "масла и жиры"]
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
