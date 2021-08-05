@@ -18,6 +18,10 @@
 <li>Шифр паролів: Bcrypt</li>
 <li>Документація API: Swagger</li>
 </ol>
+У базі данних використовуються 3 колекції:
+- користувачі (users)
+- продукти (products)
+- продукти по даті (productsperdates)
 <h2>Основні Ендпоінти</h2>
 
 @ POST /users/signup - реєстрація користувача
@@ -39,3 +43,10 @@
 @ DELETE /products/:productId - видаляє продукт за id
 
 @ GET /products/:date - виводить усі спожиті продукти за певну дату
+
+<a href="https://slim-mom-backend.herokuapp.com/api-docs">Детальна документація ендпоінтів</a>
+
+<h2>Запуск сервера</h2>
+Використовуються скрипти з package.json: 
+Для розробки: "start:dev": "cross-env NODE_ENV=development nodemon ./bin/server.js",
+Для продакшну: "start": "cross-env NODE_ENV=production node ./bin/server.js"
